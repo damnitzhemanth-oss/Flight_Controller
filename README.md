@@ -11,7 +11,7 @@ This FC contains minimal architecture (as i am a rookie), it does not contain in
 
 # Architecture
 
-'''
+```
 Flight_Controller
 ├── PCB
 │   ├── FlightController_Drone.csv
@@ -61,7 +61,7 @@ Flight_Controller
         ├── S7.png
         ├── S8.png
         └── S9.png
-'''
+```
 
 # BOM
 refer the .csv file in this repo under PCB.
