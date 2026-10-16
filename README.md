@@ -4,6 +4,35 @@ A custom 4 layer flight controller built from scratch for YSWS Pixl. This follow
 
 ![PCB](images/FINAL/3D_PCB_HERO.png)
 
+# Description 
+This flight controller is unique in a way, unlike most of the FC's which skip Fuses to save space, this contains 3 fuses, making the room for human errors tiny.
+
+The main MCU is STM32F405RGT6, this tiny thing has 1MB flash and 192KB ram and can easily run betaflight at full speed. With betaflight it can also do blackbox (memory) logging, IMU (gyroscope) and OSD (share details like altitude etc) simultaneously.
+
+IMU I used for this project is ICM-42688-P which runs at 24 MHZ! It's a 6 axis gyroscope. I chose this because it is low noise (doesn't give false readings due to electrical noise) and gives reading in high resolution.
+
+Then comes the blackbox which logs the data which is useful when the drone crashes or something so it is easier for us to point out errors. The exact module is W25Q128JVS,
+~4 minutes of 2 kHz blackbox logging, or ~30 minutes at 500 Hz.
+
+Watchdog-safe boot BOOT0 pull-down (R21) + BOOT1 pull-down (R25) MCU always boots from flash unless user says so. Sometimes when drone crashes MCU might repeatedly boot into USB mode and face continuous resets, but this mechanism ensures that, this aint going to happen.
+
+No OSD: OSD is a chip that transmits data like altitude etc into the video, but most of the modern day digital cameras have this inbuilt. So I removed it.
+
+No barometer: Same as OSD, most modern day GPS have barometer built in so there is no need of one on board.
+
+2S - 6S input power, max 28V. And over current protection in built.
+
+Reverse polarity protection,due to a P-FET on board even if the user connects + and - in reverse, power ain't gonna reach other parts,it's gonna stop at the P-Fet thus protecting rest of the FC.
+
+USB ORing protection, with schkotty diode it ensures that USB and battery power won't fight or push power back.
+
+5 independent UARTs, enough for connections GPS, Camera, etc with one spare.
+
+4 pins for motors, with current and voltage measurement with dividers (a divider is a junction of Resistors which steps down the voltage/current and MCU multiplies it with a specific number,here 11 to get voltage and current readings).
+
+Addressable RGB LED and two onboard LEDs indicating 5V and 3.3V with buzzer connections headers for audible output.
+
+What makes it unique ? I built this board such that it is easy to debug, yes no board can work perfectly first time, this instead of saving space, i tried to make it more debuggable by adding multiple Testpoints. 
 
 # Overview
 
